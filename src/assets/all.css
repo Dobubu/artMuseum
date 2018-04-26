@@ -70,6 +70,15 @@
   opacity: 1;
 }
 
+#btnWhiteSpaceNormal a {
+  white-space: normal;
+  outline: none;
+}
+
+.btn:focus {
+  outline: none;
+}
+
 body {
   font-family: '微軟正黑體';
 }

@@ -13,7 +13,9 @@ import './assets/all.css'
 // vue相關套件
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import router from './func/index.js'
+import store from './func/store.js'
+// import router from './router'
 
 Vue.config.productionTip = false
 
@@ -21,6 +23,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
