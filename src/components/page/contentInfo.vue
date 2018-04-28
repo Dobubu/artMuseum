@@ -3,13 +3,14 @@
       <h2 class="font-weight-normal">{{getArticle}}</h2>
       <span class="text-primary"><i class="fas fa-clock mr-2"></i>{{articleTopDate}} ~ {{articleEndDate}}</span>
       <br>
-      <img src="https://rural.swcb.gov.tw/images/d_upload_rural/cms/image/A0/B0/C0/D0/E5/F529/4b78e9ac-22ce-45a1-9425-acd2de2db734.jpg" class="figure-img img-fluid rounded mt-5">
+      <!-- {{articleRelatedFileURL}} -->
+      <img :src="articleRelatedFileURL" class="figure-img img-fluid rounded mt-5" style="height: 450px;">
       <p class="mt-3 lead">
           {{articleContent}}
       </p>
       <div class="my-5">
-          <span class="badge p-2 badge-primary"><i class="fas fa-tag mr-2"></i>{{articleRelatedFileURL}}</span>
-          <span class="badge p-2 badge-secondary"><i class="fas fa-link mr-2"></i>{{articleOriginalURL}}</span>
+          <!-- <span class="badge p-2 badge-primary"><i class="fas fa-tag mr-2"></i>{{articleRelatedFileURL}}</span> -->
+          <span class="badge p-2 badge-secondary"><i class="fas fa-link mr-2"></i><a :href="articleOriginalURL" :target="_blank" class="text-white">原始資料</a></span>
           <div class="d-flex justify-content-between mt-3">
               <span><i class="fas fa-map-marker mr-2"></i>{{articlePlace}}</span>
               <span>遊程編號：{{articleID}}</span></div>
@@ -58,6 +59,7 @@ export default {
             self.articleEndDate = self.getAjaxData[i].EndDate;
             self.articleContent = self.getAjaxData[i].Content;
             self.articleRelatedFileURL = self.getAjaxData[i].RelatedFileURL;
+            // self.articleRelatedFileURL = `<img src="${self.getAjaxData[i].RelatedFileURL} class="figure-img img-fluid rounded mt-5"`;
             self.articleOriginalURL = self.getAjaxData[i].OriginalURL;
             self.articlePlace = self.getAjaxData[i].Place;
             self.articleID = self.getAjaxData[i].ID;
