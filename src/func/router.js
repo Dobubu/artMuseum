@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import vueRouter from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+// import HelloWorld from '@/components/HelloWorld'
 
 const routerList = [
   {
@@ -26,7 +26,7 @@ const routerList = [
     }
   },
   {
-    path: '/',
+    path: '/content',
     name: 'content',
     component: () => import('@/components/page/content'),
     meta: {
@@ -44,9 +44,9 @@ const routerList = [
     ]
   },
   {
-    path: '/HelloWorld',
-    name: 'HelloWorld',
-    component: HelloWorld
+    path: '/',
+    name: 'fileUpload',
+    component: () => import('@/components/fileUpload')
   }
 ]
 

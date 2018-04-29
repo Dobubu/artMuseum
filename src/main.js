@@ -12,10 +12,9 @@ import './assets/all.css'
 
 // vue相關套件
 import Vue from 'vue'
-import App from './App'
-import router from './func/index.js'
-import store from './func/store.js'
-// import router from './router'
+import App from '@/App'
+import router from '@/func/router.js'
+import store from '@/func/store.js'
 
 Vue.config.productionTip = false
 
@@ -25,5 +24,5 @@ new Vue({
   router,
   store,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
 })

@@ -1,15 +1,9 @@
-<style lang="css" scoped>
-
-
-
-</style>
-
 <template lang="html">
 
 <div>
     <appHeader/>
     <div class="container">
-        <div class="row pl-3 spancingContent mb-5">
+        <div class="row pl-3 spancingContent">
             <div class="col-12 col-md-3">
                 <h2 class="font-weight-normal">當期展覽</h2>
                 <div class="btn-group-vertical mt-3">
@@ -86,3 +80,9 @@ export default {
   },
 }
 </script>
+
+<style lang="css" scoped>
+
+
+
+</style>

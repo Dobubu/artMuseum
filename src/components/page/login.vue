@@ -1,5 +1,8 @@
 <template lang="html">
-
+    <div>
+        <h2>login</h2>
+        <router-view/>
+    </div>
 </template>
 
 <script>
