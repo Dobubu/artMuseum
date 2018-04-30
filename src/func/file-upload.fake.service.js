@@ -5,24 +5,46 @@ function upload(formData) {
             id: img,
             originalName: x.name,
             fileName: x.name,
-            url: img
+            url: img,
+            type: x.type
         })));
     return Promise.all(promises);
 }
 
 function getImage(file) {
+    console.log(file.type)
+
     return new Promise((resolve, reject) => {
-        const fReader = new FileReader();
-        const img = document.createElement('img');
+        if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
+            const fReader = new FileReader();
+            const img = document.createElement('img');
 
-        fReader.onload = () => {
-            img.src = fReader.result;
-            resolve(getBase64Image(img));
+            fReader.onload = () => {
+                img.src = fReader.result;
+                resolve(getBase64Image(img));
+            }
+
+            fReader.readAsDataURL(file);
+        }else{
+            reject(new Error('fail'));
+            console.log('not image');
         }
-
-        fReader.readAsDataURL(file);
     })
 }
+
+// function getImage(file) {
+//     return new Promise((resolve, reject) => {
+//         const fReader = new FileReader();
+//         const img = document.createElement('img');
+
+//         fReader.onload = () => {
+//             img.src = fReader.result;
+//             resolve(getBase64Image(img));
+//         }
+
+//         fReader.readAsDataURL(file);
+//     })
+// }
 
 function getBase64Image(img) {
     const canvas = document.createElement('canvas');

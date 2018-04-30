@@ -47,6 +47,11 @@ const routerList = [
     path: '/',
     name: 'fileUpload',
     component: () => import('@/components/fileUpload')
+  },
+  {
+    path: '/fileUpload2',
+    name: 'fileUpload2',
+    component: () => import('@/components/fileUpload2')
   }
 ]
 

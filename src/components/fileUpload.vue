@@ -46,7 +46,7 @@
 
 <script>
   // import { upload } from '@/func/file-upload.service.js';   // real service
-  import { upload } from '@/func/file-upload.fake.service.js'; // real service
+  import { upload } from '@/func/file-upload.fake.service.js'; // fake service
   import { wait } from '@/func/utils.js';
 
   // 組件狀態
@@ -92,10 +92,12 @@
           .then(x => {
             this.uploadedFiles = [].concat(x);
             this.currentStatus = STATUS_SUCCESS;
+            console.log(x);
           })
           .catch(err => {
             this.uploadError = err.response;
             this.currentStatus = STATUS_FAILED;
+            console.log(err.response)
           });
       },
       // filesChange() 處理文件更改

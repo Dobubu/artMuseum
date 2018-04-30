@@ -15,6 +15,7 @@ import Vue from 'vue'
 import App from '@/App'
 import router from '@/func/router.js'
 import store from '@/func/store.js'
+import uploadAPI from '@/func/uploadAPI.js'
 
 Vue.config.productionTip = false
 
