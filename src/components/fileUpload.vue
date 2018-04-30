@@ -95,7 +95,8 @@
             console.log(x);
           })
           .catch(err => {
-            this.uploadError = err.response;
+            this.uploadError = err.reason;
+            // this.uploadError = err.response;
             this.currentStatus = STATUS_FAILED;
             console.log(err.response)
           });
@@ -121,6 +122,12 @@
     },
     mounted() {
       this.reset();
+      if (typeof FileReader == "undefined") {
+          // console.log('您的瀏覽器不支持FileReader');
+          alert('您的瀏覽器不支持FileReader')
+      } else {
+          console.log('您的瀏覽器支持FileReader')
+      }
     },
   }
 </script>
