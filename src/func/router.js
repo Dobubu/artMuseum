@@ -10,18 +10,18 @@ const routerList = [
     meta: {
       tag: '登入',
       tagClass: '',
-      title: '高雄市立美術館 - 登入',
+      title: '高雄市立美術館-登入',
       keepAlive: false
     }
   },
   {
-    path: '/index',
+    path: '/',
     name: 'index',
     component: () => import('@/components/page/index'),
     meta: {
       tag: '首頁',
       tagClass: '',
-      title: '高雄市立美術館 - 首頁',
+      title: '高雄市立美術館-首頁',
       keepAlive: false
     }
   },
@@ -32,7 +32,7 @@ const routerList = [
     meta: {
       tag: '內容頁框架',
       tagClass: '',
-      title: '高雄市立美術館 - 內容頁框架',
+      title: '高雄市立美術館-內容頁框架',
       keepAlive: false
     },
     children: [
@@ -44,7 +44,7 @@ const routerList = [
     ]
   },
   {
-    path: '/',
+    path: '/fileUpload',
     name: 'fileUpload',
     component: () => import('@/components/fileUpload')
   },
@@ -61,6 +61,15 @@ const router = new vueRouter({
   mode: 'history',
   routes: routerList
 })
+
+// router.beforeEach((to, from, next) => {
+//   if (to.name !== 'content') {
+//     next({'name': 'content'})
+//   } else {
+//     window.document.title = to.meta.title
+//     next()
+//   }
+// })
 
 export default router
 

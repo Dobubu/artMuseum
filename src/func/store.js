@@ -4,7 +4,7 @@ import vuex from 'vuex'
 vue.use(vuex)
 export default new vuex.Store({
   state: {
-    articleTitle: ''
+    articleTitle: '',
   },
   getters: {
     getArticleTitle (state) {
@@ -13,12 +13,12 @@ export default new vuex.Store({
   },
   mutations: {
     updateArticle (state, message) {
-      state.articleTitle = message
-    }
+      state.articleTitle = message;
+    },
   },
   actions: {
     updateArticle (context, msgName) {
-      context.commit('updateArticle',msgName)
-    }
+      context.commit('updateArticle',msgName);
+    },
   }
 })

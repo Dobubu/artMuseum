@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="sticky-top bg-dark">
   		<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
-  			<a class="navbar-brand" href="index.html">高雄市立美術館 展覽介紹</a>
+			<router-link :to="{name: 'index'}" class="navbar-brand">高雄市立美術館 展覽介紹</router-link>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
   				<span class="navbar-toggler-icon"></span>
   			</button>
