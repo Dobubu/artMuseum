@@ -1,10 +1,9 @@
 <template lang="html">
   <div  class="col-12 col-md-9">
-    <div v-if="articleLoading">
-      <p>資料載入中</p>
+    <div v-if='isArticleLoading'>
+        <font-awesome-icon :icon="['fas','circle-notch']" class="text-primary mb-3" spin size="4x"/>
     </div>
-
-    <div v-if="articleShow">
+    <div v-if="isArticleInfo">
       <h2 class="font-weight-normal">{{getArticle}}</h2>
       <span class="text-primary"><i class="fas fa-clock mr-2"></i>{{articleTopDate}} ~ {{articleEndDate}}</span>
       <br>
@@ -25,14 +24,19 @@
 </template>
 
 <script>
+import fontawesome from "@fortawesome/fontawesome";
+import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
+import solid from "@fortawesome/fontawesome-free-solid";
 import axios from "axios";
+
+fontawesome.library.add(solid);
 
 export default {
   data() {
     return {
       getAjaxData: [],
-      articleLoading: false,
-      articleShow: true,
+      isArticleLoading: true,
+      isArticleInfo: false,
       articleTitle: '',
       articleTopDate: '',
       articleEndDate: '',
@@ -43,45 +47,50 @@ export default {
       articleID: '',
     }
   },
-  mounted() {
-      this.getData();
-  },
   methods: {
-      getData() {
-          let self = this;
-          axios.get('http://opendata.khcc.gov.tw/public/OD_kmfa_exhibition.ashx')
+      getData(getTitle) {
+        let self = this;
+        axios.get('http://opendata.khcc.gov.tw/public/OD_kmfa_exhibition.ashx')
             .then(function (response){
-                console.log('success');
-                self.getAjaxData = response.data;
+              console.log('1 getExhibitionData success_contentInfo');
+              self.getAjaxData = response.data;
+              // self.showArticle(getTitle);
+            })
+            .then(function(){
+              console.log('then 2')
+              self.isArticleLoading = false;
+              self.isArticleInfo = true;
             })
             .catch(function (error) {
               console.log('error');
             });
       },
-      showArticle(getTitle) {
-        let self = this;
-        let dataLength = self.getAjaxData.length;
-        
-        for (let i = 0; i < dataLength; i++) {
-          if (self.getAjaxData[i].Title === getTitle) {
-            self.articleTopDate = self.getAjaxData[i].TopDate;
-            self.articleEndDate = self.getAjaxData[i].EndDate;
-            self.articleContent = self.getAjaxData[i].Content;
-            self.articleRelatedFileURL = self.getAjaxData[i].RelatedFileURL;
-            self.articleOriginalURL = self.getAjaxData[i].OriginalURL;
-            self.articlePlace = self.getAjaxData[i].Place;
-            self.articleID = self.getAjaxData[i].ID;
-          }
-        }
-      },
+      // showArticle(getTitle) {
+      //   console.log('showAriticle 3');
+      //   let self = this;
+      //   let dataLength = self.getAjaxData.length;
+      //   for (let i = 0; i < dataLength; i++) {
+      //     if (self.getAjaxData[i].Title === getTitle) {
+      //       self.articleTopDate = self.getAjaxData[i].TopDate;
+      //       self.articleEndDate = self.getAjaxData[i].EndDate;
+      //       self.articleContent = self.getAjaxData[i].Content;
+      //       self.articleRelatedFileURL = self.getAjaxData[i].RelatedFileURL;
+      //       self.articleOriginalURL = self.getAjaxData[i].OriginalURL;
+      //       self.articlePlace = self.getAjaxData[i].Place;
+      //       self.articleID = self.getAjaxData[i].ID;
+      //     }
+      //   }
+      // },
   },
   computed: {
     getArticle() {
       this.articleTitle = this.$store.getters.getArticleTitle;
-      this.showArticle(this.articleTitle);
-      // self.articleShow = true;
+      this.getData(this.articleTitle);
       return this.$store.getters.getArticleTitle
     },
+  },
+  components: {
+    FontAwesomeIcon,
   },
 }
 </script>
