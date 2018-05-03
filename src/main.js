@@ -10,7 +10,9 @@ import 'jquery/dist/jquery.min.js'
 import '@fortawesome/fontawesome/styles.css'
 import './assets/all.css'
 
+//第三方
 import $ from 'jquery'
+import * as VueGoogleMaps from "vue2-google-maps"
 // import all from '@/func/all.js'
 
 // vue相關套件
@@ -20,7 +22,12 @@ import router from '@/func/router.js'
 import store from '@/func/store.js'
 import uploadAPI from '@/func/uploadAPI.js'
 
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyD_q0248Ol93QRoXvbC9ccDc-Y9lVutbr0",
+    // libraries: "places" // necessary for places input
+  }
+});
 
 // window.jQuery = window.$ = $
 

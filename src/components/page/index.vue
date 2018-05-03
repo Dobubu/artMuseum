@@ -69,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid contentBanner3 my-5 text-white">
+        <!-- <div class="container-fluid contentBanner3 my-5 text-white">
             <div class="container text-center py-5">
                 <h5>MAURIS VOLUTPAT AT ETIAM</h5>
                 <p>
@@ -77,6 +77,12 @@
                 </p>
                 <a class="btn p-2 btn-outline-primary font-weight-light rounded-0 text-uppercase" href="#" role="button">Get in Contact »</a>
             </div>
+        </div> -->
+        <div class="container-fluid my-5 px-0 ">
+            <gmap-map :center="center" :zoom="13" style="width:100%;  height: 300px;">
+                <gmap-info-window :options="infoOptions" :position="infoPosition" :opened="infoOpened" @closeclick="infoOpened=false">{{infoContent}}</gmap-info-window>
+                <gmap-marker :key="index" v-for="(m, index) in markers" :position="getPosition(m)" @click="toggleInfo(m, index)"></gmap-marker>
+            </gmap-map>
         </div>
         <div class="container">
             <div class="row">
@@ -180,8 +186,10 @@ import fontawesome from "@fortawesome/fontawesome";
 import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import solid from "@fortawesome/fontawesome-free-solid";
 import axios from "axios";
+import uploadAPI from '@/func/uploadAPI.js'
 
 fontawesome.library.add(solid);
+
 
 export default {
     data() {
@@ -205,6 +213,32 @@ export default {
             isLastesInfo: false,
             isCurrentLoading: true,
             isCurrentInfo: false,
+            center: {                               // 整個地圖中心點
+                lat: 22.642844, 
+                lng: 120.278168
+            },
+            markers: {                              // 要顯示marker的地點
+                0: {
+                    full_name: '高雄市立美術館',
+                    lat: '22.6564372',
+                    lng: '120.2840743'
+                }, 
+                1: {
+                    full_name: '高雄市立歷史博物館',
+                    lat: '22.626955',
+                    lng: '120.2846107'
+                }
+            },
+            infoPosition: null,                     // 該地籍位置
+            infoContent: '',                        // 地籍資訊內容
+            infoOpened: false,                      // 控制地籍資訊內容顯示
+            infoCurrentKey: null,
+            infoOptions: {
+                pixelOffset: {
+                    width: 0,
+                    height: -35
+                }
+            },
         }
     },
     mounted() {
@@ -264,6 +298,22 @@ export default {
             let infoNums = 6;
             getLastestInfo.length = infoNums;
             self.lastesInfo = getLastestInfo;
+        },
+        getPosition(marker) {
+            return {
+                lat: parseFloat(marker.lat),
+                lng: parseFloat(marker.lng)
+            }
+        },
+        toggleInfo(marker, key) {
+            this.infoPosition = this.getPosition(marker);
+            this.infoContent = marker.full_name;            // 將full_name指定給'地籍資訊內容'data中
+            if (this.infoCurrentKey == key) {
+                this.infoOpened = !this.infoOpened;
+            } else {
+                this.infoOpened = true;
+                this.infoCurrentKey = key;
+            }
         }
     },
     components: {
