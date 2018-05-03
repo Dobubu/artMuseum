@@ -1,10 +1,10 @@
 <template lang="html">
   <div  class="col-12 col-md-9">
-    <p>{{tt}}</p>
     <div v-if='isArticleLoading'>
         <font-awesome-icon :icon="['fas','circle-notch']" class="text-primary mb-3" spin size="4x"/>
     </div>
-    <div v-if="isArticleInfo">
+    <div v-if="true">
+    <!-- <div v-if="isArticleInfo"> -->
       <h2 class="font-weight-normal">{{getArticle}}</h2>
       <span class="text-primary"><i class="fas fa-clock mr-2"></i>{{articleTopDate}} ~ {{articleEndDate}}</span>
       <img :src="articleRelatedFileURL" class="figure-img img-fluid rounded mt-3" style="width: 400px;">
@@ -44,7 +44,6 @@ export default {
       articleOriginalURL: '',
       articlePlace: '',
       articleID: '',
-      tt: 'a'
     }
   },
   mounted() {
@@ -54,6 +53,7 @@ export default {
       reset() {
         this.isArticleLoading = true;
         this.isArticleInfo = false;
+        console.log('1 reset -----');
       },
       getData(getTitle) {
         let self = this;
@@ -61,18 +61,21 @@ export default {
         axios.get('http://opendata.khcc.gov.tw/public/OD_kmfa_exhibition.ashx')
             .then(function (response){
               console.log('1 getExhibitionData success_contentInfo');
+              console.log('3 axios -----');
               self.getAjaxData = response.data;
               self.showArticle(getTitle);
             })
             .then(function(){
               self.isArticleLoading = false;
               self.isArticleInfo = true;
+              console.log('5 then -----');
             })
             .catch(function (error) {
               console.log('error');
             });
       },
       showArticle(getTitle) {
+        console.log('4 showArticle -----');
         let self = this;
         let dataLength = self.getAjaxData.length;
         for (let i = 0; i < dataLength; i++) {
@@ -87,22 +90,16 @@ export default {
           }
         }
       },
-      test() {
-        console.log('enter text');
-        // this.isArticleLoading = false;
-        // this.isArticleInfo = true;
-        this.tt = 'a change';
-      }
   },
   computed: {
     getArticle() {
-      // let self = this;
       this.articleTitle = this.$store.getters.getArticleTitle;
-      // if(self.articleTitle !== ''){
-      //   console.log('有title資料');
-      //   self.getData(self.articleTitle);
-      // }
-      this.tt = 'a change';
+      if(this.articleTitle !== ''){
+        this.getData(this.articleTitle);
+      }
+      console.log('2 getArticle -----');
+
+      // this.getData(this.articleTitle);
       return this.$store.getters.getArticleTitle
     },
   },

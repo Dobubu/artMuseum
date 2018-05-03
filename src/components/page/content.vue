@@ -43,7 +43,6 @@ export default {
         'py-2': true,
         'border-0': true,
         'text-left': true,
-        // btnWhiteSpaceNormal: true
       },
       menu: [],
     }
@@ -56,7 +55,7 @@ export default {
           let self = this;
           axios.get('http://opendata.khcc.gov.tw/public/OD_kmfa_exhibition.ashx')
             .then(function (response){
-                console.log('success');
+                console.log('1 getExhibitionData success_content');
                 console.log(response.data);
                 self.menuData(response.data);
             })
