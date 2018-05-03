@@ -1,14 +1,13 @@
 <template lang="html">
   <div  class="col-12 col-md-9">
+    <p>{{tt}}</p>
     <div v-if='isArticleLoading'>
         <font-awesome-icon :icon="['fas','circle-notch']" class="text-primary mb-3" spin size="4x"/>
     </div>
     <div v-if="isArticleInfo">
       <h2 class="font-weight-normal">{{getArticle}}</h2>
       <span class="text-primary"><i class="fas fa-clock mr-2"></i>{{articleTopDate}} ~ {{articleEndDate}}</span>
-      <br>
-      <!-- {{articleRelatedFileURL}} -->
-      <img :src="articleRelatedFileURL" class="figure-img img-fluid rounded mt-5" style="height: 450px;">
+      <img :src="articleRelatedFileURL" class="figure-img img-fluid rounded mt-3" style="width: 400px;">
       <p class="mt-3 lead">
           {{articleContent}}
       </p>
@@ -45,19 +44,27 @@ export default {
       articleOriginalURL: '',
       articlePlace: '',
       articleID: '',
+      tt: 'a'
     }
   },
+  mounted() {
+    this.reset();
+  },
   methods: {
+      reset() {
+        this.isArticleLoading = true;
+        this.isArticleInfo = false;
+      },
       getData(getTitle) {
         let self = this;
+        console.log(getTitle);
         axios.get('http://opendata.khcc.gov.tw/public/OD_kmfa_exhibition.ashx')
             .then(function (response){
               console.log('1 getExhibitionData success_contentInfo');
               self.getAjaxData = response.data;
-              // self.showArticle(getTitle);
+              self.showArticle(getTitle);
             })
             .then(function(){
-              console.log('then 2')
               self.isArticleLoading = false;
               self.isArticleInfo = true;
             })
@@ -65,27 +72,37 @@ export default {
               console.log('error');
             });
       },
-      // showArticle(getTitle) {
-      //   console.log('showAriticle 3');
-      //   let self = this;
-      //   let dataLength = self.getAjaxData.length;
-      //   for (let i = 0; i < dataLength; i++) {
-      //     if (self.getAjaxData[i].Title === getTitle) {
-      //       self.articleTopDate = self.getAjaxData[i].TopDate;
-      //       self.articleEndDate = self.getAjaxData[i].EndDate;
-      //       self.articleContent = self.getAjaxData[i].Content;
-      //       self.articleRelatedFileURL = self.getAjaxData[i].RelatedFileURL;
-      //       self.articleOriginalURL = self.getAjaxData[i].OriginalURL;
-      //       self.articlePlace = self.getAjaxData[i].Place;
-      //       self.articleID = self.getAjaxData[i].ID;
-      //     }
-      //   }
-      // },
+      showArticle(getTitle) {
+        let self = this;
+        let dataLength = self.getAjaxData.length;
+        for (let i = 0; i < dataLength; i++) {
+          if (self.getAjaxData[i].Title === getTitle) {
+            self.articleTopDate = self.getAjaxData[i].TopDate;
+            self.articleEndDate = self.getAjaxData[i].EndDate;
+            self.articleContent = self.getAjaxData[i].Content;
+            self.articleRelatedFileURL = self.getAjaxData[i].RelatedFileURL;
+            self.articleOriginalURL = self.getAjaxData[i].OriginalURL;
+            self.articlePlace = self.getAjaxData[i].Place;
+            self.articleID = self.getAjaxData[i].ID;
+          }
+        }
+      },
+      test() {
+        console.log('enter text');
+        // this.isArticleLoading = false;
+        // this.isArticleInfo = true;
+        this.tt = 'a change';
+      }
   },
   computed: {
     getArticle() {
+      // let self = this;
       this.articleTitle = this.$store.getters.getArticleTitle;
-      this.getData(this.articleTitle);
+      // if(self.articleTitle !== ''){
+      //   console.log('有title資料');
+      //   self.getData(self.articleTitle);
+      // }
+      this.tt = 'a change';
       return this.$store.getters.getArticleTitle
     },
   },

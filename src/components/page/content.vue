@@ -2,23 +2,25 @@
 
 <div>
     <appHeader/>
-    <div class="container">
-        <div class="row pl-3 spancingContent">
-            <div class="col-12 col-md-3">
-                <h2 class="font-weight-normal">當期展覽</h2>
-                <div class="btn-group-vertical mt-3">
-                    <ul class="list-unstyled">
-                        <li v-for="title in menu" id="btnWhiteSpaceNormal">
-                            <a href="#" :class='leftMenuLink' @click='showArticle(title)'>{{title}}</a>
-                            <!-- <router-link :to="{ name: 'contentInfo' }" :class="leftMenuLink">2018高雄獎</router-link> -->
-                        </li>
-                    </ul>
+    <div class="d-flex flex-column" style="height:100vh;">
+        <div class="container">
+            <div class="row pl-3 spancingContent">
+                <div class="col-12 col-md-3">
+                    <h2 class="font-weight-normal">當期展覽</h2>
+                    <div class="btn-group-vertical mt-3">
+                        <ul class="list-unstyled">
+                            <li v-for="title in menu" id="btnWhiteSpaceNormal">
+                                <a href="#" :class='leftMenuLink' @click='showArticle(title)'>{{title}}</a>
+                                <!-- <router-link :to="{ name: 'contentInfo' }" :class="leftMenuLink">2018高雄獎</router-link> -->
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+                <router-view/>
             </div>
-            <router-view/>
         </div>
+        <appFooter/>
     </div>
-    <appFooter/>
 </div>
 
 </template>
@@ -82,7 +84,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
-
-
+    .container {
+        flex-grow: 1;
+    }
 </style>
