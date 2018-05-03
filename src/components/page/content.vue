@@ -71,7 +71,7 @@ export default {
       },
       showArticle(getTitle){
         this.$store.dispatch('updateArticle', getTitle).then(()=>{
-            this.$router.replace({ name: 'contentInfo' });
+            this.$router.replace({ name: 'contentInfo', params: { title: getTitle }});
         })
       }
   },

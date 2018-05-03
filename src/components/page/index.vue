@@ -85,43 +85,38 @@
                     <p>Donec vitae velit facilisis gravida justo sed rhoncus</p>
                 </div>
             </div>
-            <div class="row px-5 mb-5">
+            <div class="row px-5 mb-5 d-flex justify-content-around">
                 <div class="col-md-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="../../assets/img/card_7.jpg" alt="Card image cap">
                         <div class="card-body" style="background: #fff;">
-                            <p class="mb-0">EST AT ULLAMCORPER NAM</p>
-                            <i class="fas fa-user fa-xs"></i>
-                            <p class="d-inline mr-2 text-primary tS spLine">Admin</p><i class="fas fa-tag fa-xs"></i>
-                            <p class="d-inline mr-2 text-primary tS">Admin</p>
-                            <p class="card-text mt-3">Posuere ipsum eget tellus placerat quis ultrices sem commodo interdum et malesuada fames ipsum primis faucibus…</p>
-                            <a class="btn p-2 btn-primary font-weight-light rounded-0 text-uppercase" href="#" role="button">Get in Contact »</a>
+                            <h3>高雄市立美術館</h3>
+                            <font-awesome-icon :icon="['fas','clock']" class="mr-2" />
+                            <p class="d-inline mr-2 text-primary tS">週二至週日 / 9:30~17:30</p>
+                            <br/>
+                            <font-awesome-icon :icon="['fas','phone']" class="mr-2"/>
+                            <p class="d-inline mr-2 text-primary tS">(07)5550331</p>
+                            <br/>
+                            <font-awesome-icon :icon="['fas','map-marker']" class="mr-2"/>
+                            <p class="d-inline mr-2 text-primary tS">80460高雄市鼓山區美術館路80號</p>
+                            <!-- <p class="card-text mt-3">Posuere ipsum eget tellus placerat quis ultrices sem commodo interdum et malesuada fames ipsum primis faucibus…</p> -->
+                            <a class="mt-5 btn p-2 btn-primary font-weight-light rounded-0 text-uppercase" href="http://www.kmfa.gov.tw/home01.aspx?ID=1"  target='_blank'>Get in Contact »</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="../../assets/img/card_8.jpg" alt="Card image cap">
                         <div class="card-body" style="background: #fff;">
-                            <p class="mb-0">EST AT ULLAMCORPER NAM</p>
-                            <i class="fas fa-user fa-xs"></i>
-                            <p class="d-inline mr-2 text-primary tS spLine">Admin</p><i class="fas fa-tag fa-xs"></i>
-                            <p class="d-inline mr-2 text-primary tS">Admin</p>
-                            <p class="card-text mt-3">Posuere ipsum eget tellus placerat quis ultrices sem commodo interdum et malesuada fames ipsum primis faucibus…</p>
-                            <a class="btn p-2 btn-primary font-weight-light rounded-0 text-uppercase" href="#" role="button">Get in Contact »</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <img class="card-img-top" src="../../assets/img/card_9.jpg" alt="Card image cap">
-                        <div class="card-body" style="background: #fff;">
-                            <p class="mb-0">EST AT ULLAMCORPER NAM</p>
-                            <i class="fas fa-user fa-xs"></i>
-                            <p class="d-inline mr-2 text-primary tS spLine">Admin</p><i class="fas fa-tag fa-xs"></i>
-                            <p class="d-inline mr-2 text-primary tS">Admin</p>
-                            <p class="card-text mt-3">Posuere ipsum eget tellus placerat quis ultrices sem commodo interdum et malesuada fames ipsum primis faucibus…</p>
-                            <a class="btn p-2 btn-primary font-weight-light rounded-0 text-uppercase" href="#" role="button">Get in Contact »</a>
+                            <h3>高雄市立歷史博物館</h3>
+                            <font-awesome-icon :icon="['fas','clock']" class="mr-2" />
+                            <p class="d-inline mr-2 text-primary tS">週二至週日 / 9:30~17:30</p>
+                            <br/>
+                            <font-awesome-icon :icon="['fas','phone']" class="mr-2"/>
+                            <p class="d-inline mr-2 text-primary tS">(07)5312560</p>
+                            <br/>
+                            <font-awesome-icon :icon="['fas','map-marker']" class="mr-2"/>
+                            <p class="d-inline mr-2 text-primary tS">80347高雄市鹽埕區中正四路272號</p>
+                            <!-- <p class="card-text mt-3">Posuere ipsum eget tellus placerat quis ultrices sem commodo interdum et malesuada fames ipsum primis faucibus…</p> -->
+                            <a class="mt-5 btn p-2 btn-primary font-weight-light rounded-0 text-uppercase" href="http://khm.org.tw/home01.aspx?ID=1" target='_blank'>Get in Contact »</a>
                         </div>
                     </div>
                 </div>
@@ -261,7 +256,7 @@ export default {
         },
         contentPage(getCurrentTitle) {
             this.$store.dispatch('updateArticle', getCurrentTitle).then(()=>{
-                this.$router.push({ name: 'contentInfo' });
+                this.$router.push({ name: 'contentInfo', params: { title: getCurrentTitle }});
             })
         },
         newsData(getLastestInfo) {

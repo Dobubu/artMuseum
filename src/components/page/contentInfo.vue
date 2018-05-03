@@ -1,22 +1,26 @@
 <template lang="html">
   <div  class="col-12 col-md-9">
     <div v-if='isArticleLoading'>
-        <font-awesome-icon :icon="['fas','circle-notch']" class="text-primary mb-3" spin size="4x"/>
+        <font-awesome-icon :icon="['fas','circle-notch']" :class="iconClass" class="mb-3" spin size="4x"/>
     </div>
     <div v-if="true">
     <!-- <div v-if="isArticleInfo"> -->
       <h2 class="font-weight-normal">{{getArticle}}</h2>
-      <span class="text-primary"><i class="fas fa-clock mr-2"></i>{{articleTopDate}} ~ {{articleEndDate}}</span>
-      <img :src="articleRelatedFileURL" class="figure-img img-fluid rounded mt-3" style="width: 400px;">
+      <!-- <h2 class="font-weight-normal">{{$route.params.title}}</h2> -->
+      <span class="text-primary"><font-awesome-icon :icon="['fas','clock']" :class="iconClass"/>{{articleTopDate}} ~ {{articleEndDate}}</span>
+      <!-- <img :src="articleRelatedFileURL" class="figure-img img-fluid rounded mt-3" style="width: 400px;"> -->
       <p class="mt-3 lead">
           {{articleContent}}
       </p>
       <div class="my-5">
           <!-- <span class="badge p-2 badge-primary"><i class="fas fa-tag mr-2"></i>{{articleRelatedFileURL}}</span> -->
-          <span class="badge p-2 badge-secondary"><i class="fas fa-link mr-2"></i><a :href="articleOriginalURL" class="text-white">原始資料</a></span>
+          <span class="badge p-2 badge-secondary">
+            <font-awesome-icon :icon="['fas','link']" class="mr-2"/>
+            <a :href="articleOriginalURL" class="text-white" target="_blank">原始資料</a>
+          </span>
           <div class="d-flex justify-content-between mt-3">
-              <span><i class="fas fa-map-marker mr-2"></i>{{articlePlace}}</span>
-              <span>遊程編號：{{articleID}}</span></div>
+              <span class="text-primary"><font-awesome-icon :icon="['fas','map-marker']" :class="iconClass"/>{{articlePlace}}</span>
+              <span class="text-primary"><font-awesome-icon :icon="['fas','tag']" :class="iconClass"/>遊程編號：{{articleID}}</span></div>
       </div>
     </div>
   </div>
@@ -44,6 +48,10 @@ export default {
       articleOriginalURL: '',
       articlePlace: '',
       articleID: '',
+      iconClass: {
+        'text-primary': true,
+        'mr-2': true
+      }
     }
   },
   mounted() {
@@ -99,7 +107,7 @@ export default {
       }
       console.log('2 getArticle -----');
 
-      // this.getData(this.articleTitle);
+      // this.getData($route.params);
       return this.$store.getters.getArticleTitle
     },
   },

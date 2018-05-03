@@ -37,7 +37,7 @@ const routerList = [
     },
     children: [
       {
-        path: '/content/contentInfo',
+        path: '/content/contentInfo/:title',
         name: 'contentInfo',
         component: () => import('@/components/page/contentInfo')
       }
