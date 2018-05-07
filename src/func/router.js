@@ -15,7 +15,7 @@ const routerList = [
     }
   },
   {
-    path: '/index',
+    path: '/',
     name: 'index',
     component: () => import('@/components/page/index'),
     meta: {
@@ -26,7 +26,7 @@ const routerList = [
     }
   },
   {
-    path: '/',
+    path: '/content',
     name: 'content',
     component: () => import('@/components/page/content'),
     meta: {
@@ -52,7 +52,22 @@ const routerList = [
     path: '/fileUpload2',
     name: 'fileUpload2',
     component: () => import('@/components/fileUpload2')
-  }
+  },
+  {
+    path: '/modal',
+    name: 'modal',
+    component: () => import('@/components/modal')
+  },
+  {
+    path: '/uiv',
+    name: 'uiv',
+    component: () => import('@/components/uiv')
+  },
+  {
+    path: '/xTemplate',
+    name: 'xTemplate',
+    component: () => import('@/components/xTemplate')
+  },
 ]
 
 Vue.use(vueRouter)

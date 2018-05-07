@@ -1,10 +1,12 @@
 <template lang="html">
   <div  class="col-12 col-md-9">
-    <div v-if='isArticleLoading'>
+    <!-- data loading -->
+    <div v-show='isArticleLoading'>
         <font-awesome-icon :icon="['fas','circle-notch']" :class="iconClass" class="mb-3" spin size="4x"/>
     </div>
-    <div v-if="true">
-    <!-- <div v-if="isArticleInfo"> -->
+
+    <!-- get Success -->
+    <div v-show="!isArticleLoading">
       <h2 class="font-weight-normal">{{getArticle}}</h2>
       <!-- <h2 class="font-weight-normal">{{$route.params.title}}</h2> -->
       <span class="text-primary"><font-awesome-icon :icon="['fas','clock']" :class="iconClass"/>{{articleTopDate}} ~ {{articleEndDate}}</span>
@@ -23,6 +25,9 @@
               <span class="text-primary"><font-awesome-icon :icon="['fas','tag']" :class="iconClass"/>遊程編號：{{articleID}}</span></div>
       </div>
     </div>
+
+    <!-- get Error -->
+    <div v-show="isArticleError" style="color:red;">資料抓取錯誤</div>
   </div>
 </template>
 
@@ -31,6 +36,7 @@ import fontawesome from "@fortawesome/fontawesome";
 import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import solid from "@fortawesome/fontawesome-free-solid";
 import axios from "axios";
+import { setTimeout } from 'timers';
 
 fontawesome.library.add(solid);
 
@@ -39,7 +45,8 @@ export default {
     return {
       getAjaxData: [],
       isArticleLoading: true,
-      isArticleInfo: false,
+      isArticleSuccsee: false,
+      isArticleError: false,
       articleTitle: '',
       articleTopDate: '',
       articleEndDate: '',
@@ -51,39 +58,46 @@ export default {
       iconClass: {
         'text-primary': true,
         'mr-2': true
-      }
+      },
+      delay: 1000
     }
   },
-  mounted() {
+  created() {
     this.reset();
   },
   methods: {
       reset() {
         this.isArticleLoading = true;
-        this.isArticleInfo = false;
-        console.log('1 reset -----');
+        this.isArticleSuccsee = false;
       },
       getData(getTitle) {
         let self = this;
         console.log(getTitle);
+        self.isArticleLoading = true
         axios.get('http://opendata.khcc.gov.tw/public/OD_kmfa_exhibition.ashx')
             .then(function (response){
               console.log('1 getExhibitionData success_contentInfo');
-              console.log('3 axios -----');
               self.getAjaxData = response.data;
               self.showArticle(getTitle);
             })
             .then(function(){
-              self.isArticleLoading = false;
-              self.isArticleInfo = true;
-              console.log('5 then -----');
+              setTimeout(function(){
+                self.isArticleLoading = false;
+              },self.delay);
             })
             .catch(function (error) {
+              setTimeout(function(){
+                  self.isArticleError = true;
+              },self.delay);
               console.log('error');
+            })
+            .finally(function(){
+              setTimeout(function(){
+                  self.isArticleLoading = false;
+              },self.delay)
             });
       },
       showArticle(getTitle) {
-        console.log('4 showArticle -----');
         let self = this;
         let dataLength = self.getAjaxData.length;
         for (let i = 0; i < dataLength; i++) {
@@ -105,8 +119,6 @@ export default {
       if(this.articleTitle !== ''){
         this.getData(this.articleTitle);
       }
-      console.log('2 getArticle -----');
-
       // this.getData($route.params);
       return this.$store.getters.getArticleTitle
     },

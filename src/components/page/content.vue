@@ -48,9 +48,13 @@ export default {
     }
   },
   mounted() {
-      this.getData();
+      this.init();
   },
   methods: {
+      init() {
+        this.showArticle(this.$route.params.title);
+        this.getData();
+      },
       getData() {
           let self = this;
           axios.get('http://opendata.khcc.gov.tw/public/OD_kmfa_exhibition.ashx')
