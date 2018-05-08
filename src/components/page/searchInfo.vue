@@ -1,13 +1,15 @@
 <template lang="html">
   <div>
     <appHeader/>
-    <div class="w-75 mx-auto my-0">
-      <div v-for="val in titleSubject" class="mb-5">
+    <div class="d-flex flex-column" style="height:90vh;">
+      <!-- <div v-for="val in titleSubject" class="mb-5"> -->
+      <div class="w-75 mx-auto mt-0 mb-5 flex1">
         <div class="d-flex align-items-center flex-row">
-          <h3 class="mr-3 textSpac">{{val.title}}</h3>
-          <button type="button" class="btn btn-outline-primary btn-sm mr-3" @click="infoThisYear">今年</button>
-          <button type="button" class="btn btn-outline-primary btn-sm mr-3" @click="infoLastYear">去年</button>
-          <!-- <h5 class="mr-3 text-danger">(已開始日期做篩選)</h5> -->
+          <!-- <h3 class="mr-3 textSpac">{{val.title}}</h3> -->
+          <h3 class="mr-3 textSpac">當期展覽篩選</h3>
+          <button type="button" class="btn btn-outline-primary btn-sm mr-3" @click="infoThisMon">目前可參加</button>
+          <button type="button" class="btn btn-outline-primary btn-sm mr-3" @click="infoThisYear">今年開始</button>
+          <button type="button" class="btn btn-outline-primary btn-sm mr-3" @click="infoLastYear">去年開始</button>
           <h3 class="ml-auto textSpac">{{yearNum}}</h3>
         </div>
         <div class="infoWrap mt-3">
@@ -34,8 +36,8 @@
           </div>
         </div>
       </div>
+      <appFooter/>
     </div>
-    <appFooter/>
   </div>
 </template>
 
@@ -59,13 +61,14 @@ export default {
       getAjaxData: [],
       titleSubject: [
         {
-          title: '篩選活動年度'
+          title: '當期展覽篩選'
         },{
-          title: '篩選活動編號'
+          title: '最新消息篩選'
         }
       ],
       thisYear: 0,
       lastYear: 0,
+      thisMon: 0,
       yearData: [],
       yearNum: ''
     }
@@ -101,6 +104,7 @@ export default {
       self.thisYear = moment().startOf('Y').format('YYYY/MM/DD'); // 2018/01/01
       // self.thisYear = moment().format('YYYY');                 // 2018
       self.lastYear = moment().subtract(1,'years').startOf('Y').format('YYYY/MM/DD'); // 2017/01/01
+      self.thisMon = moment().startOf('M').format('YYYY/MM/DD');  // 2018/05/01
     },
     dataReset() {
       let self = this;
@@ -122,7 +126,7 @@ export default {
                 self.yearData = self.getAjaxData.filter(function(item, index, array) {
                   return item.TopDate > self.thisYear
                 })
-                self.yearNum = `今年共${self.yearData.length}筆`;
+                self.yearNum = `今年開始共${self.yearData.length}筆`;
             },self.delay);
             self.isLoading = true;
           })
@@ -153,7 +157,39 @@ export default {
                 self.yearData = self.getAjaxData.filter(function(item, index, array){
                   return self.thisYear > item.TopDate
                 })
-                self.yearNum = `去年共${self.yearData.length}筆`;
+                self.yearNum = `去年開始共${self.yearData.length}筆`;
+            },self.delay);
+            self.isLoading = true;
+          })
+          .catch(function (error) {
+            setTimeout(function(){
+                self.isError = true;
+            },self.delay);
+            self.isSuccess = false;
+            console.log('error');
+          })
+          .finally(function(){
+            setTimeout(function(){
+                self.isLoading = false;
+            },self.delay)
+          });
+    },
+    infoThisMon() {
+      let self = this;
+      let moment = require('moment');
+      self.dataReset();
+      axios.get('http://opendata.khcc.gov.tw/public/OD_kmfa_exhibition.ashx')
+          .then(function (response){
+            console.log('1 getExhibitionData success_searchInfo');
+            self.getAjaxData = response.data;
+          })
+          .then(function(){
+            setTimeout(function(){
+                self.isSuccess = true;
+                self.yearData = self.getAjaxData.filter(function(item, index, array){
+                  return item.EndDate >= self.thisMon;
+                })
+                self.yearNum = `目前可參加共${self.yearData.length}筆`;
             },self.delay);
             self.isLoading = true;
           })
@@ -190,6 +226,11 @@ export default {
     width: 960px;
     padding: 20px;
 }
+
+.flex1 {
+  flex-grow: 1;
+}
+
 .textSpac {
   letter-spacing: 2px;
 }
@@ -202,4 +243,5 @@ export default {
     border-bottom: 1px solid #dee2e6;
   }
 }
+
 </style>

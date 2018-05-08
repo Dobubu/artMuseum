@@ -8,15 +8,17 @@
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 				<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
 					<li class="nav-item active">
-						<router-link :to="{name: 'searchInfo'}" :class="'nav-link'">SearchInfo</router-link>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Link</a>
+						<router-link :to="{name: 'searchInfo'}" :class="'nav-link'">搜尋當期展覽</router-link>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Dropdown link
-			</a>
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">相關連結</a>
+						<div class="dropdown-menu border-0" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="http://www.kmfa.gov.tw/home01.aspx?ID=1" target='_blank'>高雄市立美術館</a>
+							<a class="dropdown-item" href="http://khm.org.tw/home01.aspx?ID=1" target='_blank'>高雄市立歷史博物館</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown link</a>
 						<div class="dropdown-menu border-0" aria-labelledby="navbarDropdownMenuLink">
 							<a class="dropdown-item" href="#">Action</a>
 							<a class="dropdown-item" href="#">Another action</a>

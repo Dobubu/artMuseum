@@ -15,7 +15,7 @@ const routerList = [
     }
   },
   {
-    path: '/index',
+    path: '/',
     name: 'index',
     component: () => import('@/components/page/index'),
     meta: {
@@ -49,7 +49,7 @@ const routerList = [
     component: () => import('@/components/fileUpload')
   },
   {
-    path: '/',
+    path: '/searchInfo',
     name: 'searchInfo',
     component: () => import('@/components/page/searchInfo')
   },
