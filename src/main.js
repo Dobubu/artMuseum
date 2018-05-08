@@ -3,7 +3,6 @@
 
 // 載入設計
 import './assets/reset.css'
-// import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -16,6 +15,8 @@ import $ from 'jquery'
 import * as VueGoogleMaps from "vue2-google-maps"
 import * as uiv from 'uiv'
 import vmodal  from 'vue-js-modal'
+import moment from 'moment'
+import filter from 'lodash/filter'
 // import all from '@/func/all.js'
 
 // vue相關套件
