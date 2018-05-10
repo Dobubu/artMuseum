@@ -17,14 +17,6 @@
 							<a class="dropdown-item" href="http://khm.org.tw/home01.aspx?ID=1" target='_blank'>高雄市立歷史博物館</a>
 						</div>
 					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown link</a>
-						<div class="dropdown-menu border-0" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="#">Action</a>
-							<a class="dropdown-item" href="#">Another action</a>
-							<a class="dropdown-item" href="#">Something else here</a>
-						</div>
-					</li>
 				</ul>
 				<form class="form-inline my-2 my-lg-0">
 					<input class="form-control mr-sm-2" type="search" placeholder="Search">

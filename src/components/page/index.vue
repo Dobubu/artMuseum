@@ -10,6 +10,7 @@
                 </div>
             </div>
         </div>
+        <!-- 當期展覽 -->
         <div class="container">
             <div class="row">
                 <div class="col text-center py-5">
@@ -46,6 +47,7 @@
                 <a class="btn p-2 btn-outline-primary font-weight-light rounded-0 text-uppercase" href="#" role="button">Get in Contact »</a>
             </div>
         </div>
+        <!-- 最新消息 -->
         <div class="container">
             <div class="row">
                 <div class="col text-center py-5">
@@ -59,7 +61,8 @@
                 <div v-if='isLastesInfo' :class='latestCard' v-for='info in lastesInfo'>
                     <div class="card h-100">
                         <div class="latestImg">
-                        <img class="card-img-top" :src='info.RelatedFileURL' :alt='info.Title'></div>
+                            <img class="card-img-top" :src='info.RelatedFileURL' :alt='info.Title' v-on:error="error($event)">
+                        </div>
                         <div class="card-body" style="background: #fff;">
                             <a href="layout.html" class="text-primary font-weight-normal" style="font-size:18px;">{{info.Title}}</a>
                             <p class="card-text text-truncate textTruncate100 mt-1">{{info.Content}}</p>
@@ -316,6 +319,10 @@ export default {
                 this.infoOpened = true;
                 this.infoCurrentKey = key;
             }
+        },
+        error(e) {
+            e.currentTarget.src = "https://goo.gl/ccDYGK";
+            console.log('img load error');
         }
     },
     components: {

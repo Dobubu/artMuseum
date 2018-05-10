@@ -6,11 +6,12 @@
     </div>
 
     <!-- get Success -->
-    <div v-show="!isArticleLoading">
+    <div v-show="isArticleSuccsee">
       <h2 class="font-weight-normal">{{getArticle}}</h2>
       <!-- <h2 class="font-weight-normal">{{$route.params.title}}</h2> -->
       <span class="text-primary"><font-awesome-icon :icon="['fas','clock']" :class="iconClass"/>{{articleTopDate}} ~ {{articleEndDate}}</span>
-      <!-- <img :src="articleRelatedFileURL" class="figure-img img-fluid rounded mt-3" style="width: 400px;"> -->
+      <br/>
+      <img :src="articleRelatedFileURL" v-on:error="error($event)" class="figure-img img-fluid rounded mt-3" style="width: 400px;">
       <p class="mt-3 lead">
           {{articleContent}}
       </p>
@@ -44,7 +45,7 @@ export default {
   data() {
     return {
       getAjaxData: [],
-      isArticleLoading: true,
+      isArticleLoading: false,
       isArticleSuccsee: false,
       isArticleError: false,
       articleTitle: '',
@@ -62,33 +63,38 @@ export default {
       delay: 1000
     }
   },
-  created() {
-    this.reset();
-  },
+  // created() {
+  //   this.reset();
+  // },
   methods: {
       reset() {
         this.isArticleLoading = true;
         this.isArticleSuccsee = false;
+        this.isArticleError = false;
       },
       getData(getTitle) {
         let self = this;
         console.log(getTitle);
-        self.isArticleLoading = true
+        self.reset();
         axios.get('http://opendata.khcc.gov.tw/public/OD_kmfa_exhibition.ashx')
             .then(function (response){
               console.log('1 getExhibitionData success_contentInfo');
               self.getAjaxData = response.data;
-              self.showArticle(getTitle);
             })
             .then(function(){
-              setTimeout(function(){
-                self.isArticleLoading = false;
-              },self.delay);
+              // setTimeout(function(){
+              //   self.isArticleSuccsee = true;
+              //   self.showArticle(getTitle);
+              // },self.delay);
+              self.isArticleLoading = false;
+              self.isArticleSuccsee = true;
+              self.showArticle(getTitle);
             })
             .catch(function (error) {
               setTimeout(function(){
                   self.isArticleError = true;
               },self.delay);
+              self.isArticleSuccsee = false;
               console.log('error');
             })
             .finally(function(){
@@ -112,11 +118,17 @@ export default {
           }
         }
       },
+      error(e) {
+          // e.currentTarget.src = "https://goo.gl/4MbW5D"; // 顯示不太清楚
+          e.currentTarget.src = "https://goo.gl/ccDYGK";
+          console.log('img load error');
+      }
   },
   computed: {
     getArticle() {
       this.articleTitle = this.$store.getters.getArticleTitle;
-      if(this.articleTitle !== ''){
+      if(this.articleTitle !== '' && this.articleTitle !== undefined){
+        console.log(this.articleTitle);
         this.getData(this.articleTitle);
       }
       // this.getData($route.params);

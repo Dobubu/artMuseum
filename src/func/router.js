@@ -4,7 +4,7 @@ import vueRouter from 'vue-router'
 
 const routerList = [
   {
-    path: '/login',
+    path: '/',
     name: 'login',
     component: () => import('@/components/page/login'),
     meta: {
@@ -15,7 +15,7 @@ const routerList = [
     }
   },
   {
-    path: '/',
+    path: '/index',
     name: 'index',
     component: () => import('@/components/page/index'),
     meta: {
@@ -30,16 +30,22 @@ const routerList = [
     name: 'content',
     component: () => import('@/components/page/content'),
     meta: {
-      tag: '內容頁框架',
+      tag: '內容選單頁',
       tagClass: '',
-      title: '高雄市立美術館-內容頁框架',
+      title: '高雄市立美術館-內容選單頁',
       keepAlive: false
     },
     children: [
       {
         path: '/content/contentInfo/:title',
         name: 'contentInfo',
-        component: () => import('@/components/page/contentInfo')
+        component: () => import('@/components/page/contentInfo'),
+        meta: {
+          tag: '內容資料頁',
+          tagClass: '',
+          title: '高雄市立美術館-內容資料頁',
+          keepAlive: false
+        },
       }
     ]
   },
