@@ -81,7 +81,6 @@
                 <a class="btn p-2 btn-outline-primary font-weight-light rounded-0 text-uppercase" href="#" role="button">Get in Contact »</a>
             </div>
         </div>
-
         <!-- googleMap -->
         <!-- <div class="container-fluid my-5 px-0 ">
             <gmap-map :center="center" :zoom="13" style="width:100%;  height: 300px;">
@@ -89,6 +88,7 @@
                 <gmap-marker :key="index" v-for="(m, index) in markers" :position="getPosition(m)" @click="toggleInfo(m, index)"></gmap-marker>
             </gmap-map>
         </div> -->
+        <!-- 美術、歷史館連結 -->
         <div class="container">
             <div class="row">
                 <div class="col text-center py-5">

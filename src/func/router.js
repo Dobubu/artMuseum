@@ -4,7 +4,7 @@ import vueRouter from 'vue-router'
 
 const routerList = [
   {
-    path: '/',
+    path: '/login',
     name: 'login',
     component: () => import('@/components/page/login'),
     meta: {
@@ -55,7 +55,7 @@ const routerList = [
     component: () => import('@/components/fileUpload')
   },
   {
-    path: '/searchInfo',
+    path: '/',
     name: 'searchInfo',
     component: () => import('@/components/page/searchInfo')
   },

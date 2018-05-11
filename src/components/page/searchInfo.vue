@@ -25,7 +25,7 @@
                 <font-awesome-icon :icon="['fas','circle-notch']" class="my-3 text-primary" spin size="3x"/>
             </div>
             <!-- get Success -->
-            <div v-show='isSuccess' class="row border-top p-2 infoBar" v-for="info in yearData">
+            <div v-show='isSuccess' class="row border-top p-2 infoBar" v-for="info in yearData" @click="contentPage(info.Title)">
               <div class="col-2">{{info.Title}}</div>
               <div class="col-3">{{info.TopDate}} ~ {{info.EndDate}}</div>
               <div class="col-2">{{info.Place}}</div>
@@ -205,7 +205,12 @@ export default {
                 self.isLoading = false;
             },self.delay)
           });
-    }
+    },
+    contentPage(getCurrentTitle) {
+        this.$store.dispatch('updateArticle', getCurrentTitle).then(()=>{
+            this.$router.push({ name: 'contentInfo', params: { title: getCurrentTitle }});
+        })
+    },
   },
   created() {
     this.init();
@@ -236,6 +241,7 @@ export default {
 }
 .infoBar {
   transition: all .5s;
+  cursor: pointer;
   &:hover {
     background: lighten(#007bff, 30%);
   }
