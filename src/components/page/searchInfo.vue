@@ -25,17 +25,39 @@
                 <font-awesome-icon :icon="['fas','circle-notch']" class="my-3 text-primary" spin size="3x"/>
             </div>
             <!-- get Success -->
-            <div v-show='isSuccess' class="row border-top p-2 infoBar" v-for="info in yearData" @click="contentPage(info.Title)">
-              <div class="col-2">{{info.Title}}</div>
-              <div class="col-3">{{info.TopDate}} ~ {{info.EndDate}}</div>
-              <div class="col-2">{{info.Place}}</div>
-              <div class="col-5 text-truncate textTruncate100">{{info.Content}}</div>
+            <div v-show='isSuccess'>
+              <div class="row border-top p-2 infoBar" v-for="info in perYearDataAll[clickPage]" @click="contentPage(info.Title)">
+                <div class="col-2">{{info.Title}}</div>
+                <div class="col-3">{{info.TopDate}} ~ {{info.EndDate}}</div>
+                <div class="col-2">{{info.Place}}</div>
+                <div class="col-5 text-truncate textTruncate100">{{info.Content}}</div>
+              </div>
+              <nav class="mt-3" aria-label="Page navigation example">
+                  <ul class="pagination justify-content-end">
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                    </li>
+                    <li class="page-item" :class="{active: isActive}" v-for="(info, index) in perYearDataAll" @click="showPageData(index)">
+                      <a class="page-link" href="#">{{index+1}}</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
             </div>
             <!-- get Error -->
             <div v-show="isError" class="my-3" style="color:red;">資料抓取錯誤</div>
           </div>
         </div>
       </div>
+
       <appFooter/>
     </div>
   </div>
@@ -69,8 +91,13 @@ export default {
       thisYear: 0,
       lastYear: 0,
       thisMon: 0,
-      yearData: [],
-      yearNum: ''
+      yearData: [],                 // 當前顯示資料(obj)
+      yearNum: '',
+      perNum: 2,                    // 每頁顯示筆數
+      perYearDataAll: [],           // "整理成頁數後的" 當前顯示資料。全域的
+      totalPage: 0,                 // 總筆數
+      clickPage: 0,                  // 點選到的頁數
+      isActive: false,
     }
   },
   methods: {
@@ -127,6 +154,8 @@ export default {
                   return item.TopDate > self.thisYear
                 })
                 self.yearNum = `今年開始共${self.yearData.length}筆`;
+                console.log(self.yearData);
+                self.perData(); // 算分頁func
             },self.delay);
             self.isLoading = true;
           })
@@ -158,6 +187,7 @@ export default {
                   return self.thisYear > item.TopDate
                 })
                 self.yearNum = `去年開始共${self.yearData.length}筆`;
+                self.perData(); // 算分頁func
             },self.delay);
             self.isLoading = true;
           })
@@ -190,6 +220,7 @@ export default {
                   return item.EndDate >= self.thisMon;
                 })
                 self.yearNum = `目前可參加共${self.yearData.length}筆`;
+                self.perData(); // 算分頁func
             },self.delay);
             self.isLoading = true;
           })
@@ -207,10 +238,33 @@ export default {
           });
     },
     contentPage(getCurrentTitle) {
-        this.$store.dispatch('updateArticle', getCurrentTitle).then(()=>{
-            this.$router.push({ name: 'contentInfo', params: { title: getCurrentTitle }});
-        })
+      this.$store.dispatch('updateArticle', getCurrentTitle).then(()=>{
+          this.$router.push({ name: 'contentInfo', params: { title: getCurrentTitle }});
+      })
     },
+    perData() {
+      let self = this;
+      self.totalPage = Math.ceil(self.yearData.length / self.perNum);       // 算總頁數
+      let perYearData = [];                                                 // "整理成頁數後的" 當前顯示資料。不能寫在data中，因為會記錄之前data。
+      for(let i =0; i < self.totalPage; i++){
+        let lastPage = (i + 1) * self.perNum - 1;
+        let startPage = lastPage - (self.perNum - 1);
+        perYearData[i] = [];                                                // 產生總頁數的空陣列，給每頁筆數塞資料
+        for (startPage; startPage <= lastPage; startPage++) {
+          if (self.yearData[startPage] !== undefined) {
+            perYearData[i].push(self.yearData[startPage]);
+          }
+        }
+      }
+      self.perYearDataAll = perYearData;
+      console.log(perYearData)
+    },
+    showPageData(getPage) {
+      let self = this;
+      self.clickPage = getPage;
+      console.log(getPage);
+      self.isActive = !self.isActive;
+    }
   },
   created() {
     this.init();
