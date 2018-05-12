@@ -3,7 +3,7 @@
     <appHeader/>
     <div class="d-flex flex-column" style="height:90vh;">
       <!-- <div v-for="val in titleSubject" class="mb-5"> -->
-      <div class="w-75 mx-auto mt-0 mb-5 flex1">
+      <div class="w-75 mx-auto mt-0 mb-5 flex1 infoWrap">
         <div class="d-flex align-items-center flex-row">
           <!-- <h3 class="mr-3 textSpac">{{val.title}}</h3> -->
           <h3 class="mr-3 textSpac">當期展覽篩選</h3>
@@ -12,7 +12,7 @@
           <button type="button" class="btn btn-outline-primary btn-sm mr-3" @click="infoLastYear">去年開始</button>
           <h3 class="ml-auto textSpac">{{yearNum}}</h3>
         </div>
-        <div class="infoWrap mt-3">
+        <div class="mt-3">
           <div class="text-center">
             <div class="row border-top p-2 border-bottom">
               <div class="col-2">標題</div>
@@ -25,25 +25,27 @@
                 <font-awesome-icon :icon="['fas','circle-notch']" class="my-3 text-primary" spin size="3x"/>
             </div>
             <!-- get Success -->
-            <div v-show='isSuccess'>
+            <div v-show='isSuccess' >
+              <!-- success 資料顯示 -->
               <div class="row border-top p-2 infoBar" v-for="info in perYearDataAll[clickPage]" @click="contentPage(info.Title)">
                 <div class="col-2">{{info.Title}}</div>
                 <div class="col-3">{{info.TopDate}} ~ {{info.EndDate}}</div>
                 <div class="col-2">{{info.Place}}</div>
                 <div class="col-5 text-truncate textTruncate100">{{info.Content}}</div>
               </div>
-              <nav class="mt-3" aria-label="Page navigation example">
+              <!-- 顯示分頁 -->
+              <nav class="mt-3 navBottom" aria-label="Page navigation example">
                   <ul class="pagination justify-content-end">
-                    <li class="page-item">
+                    <li class="page-item" :class="{disabled: isDisabledPre}" @click="prePageData(clickPage)">
                       <a class="page-link" href="#" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                       </a>
                     </li>
-                    <li class="page-item" :class="{active: isActive}" v-for="(info, index) in perYearDataAll" @click="showPageData(index)">
+                    <li class="page-item" :class="{active: index==isActive}" v-for="(info, index) in perYearDataAll" @click="showPageData(index, $event)">
                       <a class="page-link" href="#">{{index+1}}</a>
                     </li>
-                    <li class="page-item">
+                    <li class="page-item" :class="{disabled: isDisabledNext}" @click="nextPageData(clickPage)">
                       <a class="page-link" href="#" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
@@ -93,11 +95,13 @@ export default {
       thisMon: 0,
       yearData: [],                 // 當前顯示資料(obj)
       yearNum: '',
-      perNum: 2,                    // 每頁顯示筆數
+      perNum: 3,                    // 每頁顯示筆數
       perYearDataAll: [],           // "整理成頁數後的" 當前顯示資料。全域的
       totalPage: 0,                 // 總筆數
       clickPage: 0,                  // 點選到的頁數
-      isActive: false,
+      isActive: 0,
+      isDisabledPre: false,
+      isDisabledNext: false,
     }
   },
   methods: {
@@ -138,6 +142,8 @@ export default {
       self.isLoading = true;
       self.isSuccess = false;
       self.yearNum = '';
+      self.clickPage = 0;
+      self.isActive = 0;
     },
     infoThisYear() {
       let self = this;
@@ -259,11 +265,34 @@ export default {
       self.perYearDataAll = perYearData;
       console.log(perYearData)
     },
-    showPageData(getPage) {
+    showPageData(getPage, event) {
       let self = this;
       self.clickPage = getPage;
-      console.log(getPage);
-      self.isActive = !self.isActive;
+      self.isActive = getPage;  
+    },
+    prePageData(getPage) {
+      let self = this;
+      if(getPage === 0){
+        self.clickPage = 0;
+        self.isActive = getPage; 
+        // self.isDisabledPre = true;
+      }else {
+        self.clickPage = getPage - 1;
+        self.isActive = getPage - 1; 
+        // self.isDisabledPre = false;
+      }
+    },
+    nextPageData(getPage) {
+      let self = this;
+      if(getPage === (self.totalPage-1)){
+        self.clickPage = (self.totalPage-1);
+        self.isActive = getPage; 
+        // self.isDisabledNext = true;
+      }else {
+        self.clickPage = getPage + 1;
+        self.isActive = getPage + 1; 
+        // self.isDisabledNext = false;
+      }
     }
   },
   created() {
@@ -284,6 +313,16 @@ export default {
     margin: 0 auto;
     width: 960px;
     padding: 20px;
+}
+
+.infoWrap {
+  position: relative;
+}
+
+.navBottom {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 .flex1 {
