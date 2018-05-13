@@ -27,11 +27,13 @@
             <!-- get Success -->
             <div v-show='isSuccess' >
               <!-- success 資料顯示 -->
-              <div class="row border-top p-2 infoBar" v-for="info in perYearDataAll[clickPage]" @click="contentPage(info.Title)">
-                <div class="col-2">{{info.Title}}</div>
-                <div class="col-3">{{info.TopDate}} ~ {{info.EndDate}}</div>
-                <div class="col-2">{{info.Place}}</div>
-                <div class="col-5 text-truncate textTruncate100">{{info.Content}}</div>
+              <div style="min-height: 355px;">
+                <div class="row border-top p-2 infoBar" v-for="info in perYearDataAll[clickPage]" @click="contentPage(info.Title)">
+                  <div class="col-2">{{info.Title}}</div>
+                  <div class="col-3">{{info.TopDate}} ~ {{info.EndDate}}</div>
+                  <div class="col-2">{{info.Place}}</div>
+                  <div class="col-5 text-truncate textTruncate100">{{info.Content}}</div>
+                </div>
               </div>
               <!-- 顯示分頁 -->
               <nav class="mt-3 navBottom" aria-label="Page navigation example">
@@ -315,15 +317,15 @@ export default {
     padding: 20px;
 }
 
-.infoWrap {
-  position: relative;
-}
+// .infoWrap {
+//   position: relative;
+// }
 
-.navBottom {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
+// .navBottom {
+//   position: absolute;
+//   bottom: 0;
+//   right: 0;
+// }
 
 .flex1 {
   flex-grow: 1;
